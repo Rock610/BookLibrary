@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ListView
+        android:id="@+id/booksListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.getbase.floatingactionbutton.AddFloatingActionButton
+        android:id="@+id/addBookBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="10dp"
+        app:fab_colorNormal="@color/blue_semi_transparent"
+        app:fab_colorPressed="@color/blue_semi_transparent_pressed"
+        app:fab_plusIconColor="@android:color/white" />
+
+</RelativeLayout>
