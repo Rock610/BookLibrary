@@ -1,5 +1,6 @@
 package com.rock.android.booklibrary.ui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bmob.BTPFileResponse;
 import com.bmob.BmobProFile;
@@ -28,6 +30,7 @@ public class CreateBookActivity extends BaseActivity implements View.OnClickList
     private android.widget.EditText bookNameEditText;
     private Button submitBtn;
     private String mImageUrl;
+    private AlertDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,14 @@ public class CreateBookActivity extends BaseActivity implements View.OnClickList
     }
 
     private void submit(){
+        if(mDialog == null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("请稍后...");
+            builder.setMessage("正在努力加载...");
+            mDialog = builder.create();
+        }
+        mDialog.show();
+
         uploadImage(mImageUrl);
 
     }
@@ -73,6 +84,8 @@ public class CreateBookActivity extends BaseActivity implements View.OnClickList
                 b.name = bookNameEditText.getText().toString();
                 b.bookPic = file.getUrl();
                 b.save(CreateBookActivity.this);
+                Toast.makeText(CreateBookActivity.this,"上传成功!",Toast.LENGTH_SHORT).show();
+                reset();
             }
 
             @Override
@@ -85,8 +98,16 @@ public class CreateBookActivity extends BaseActivity implements View.OnClickList
             public void onError(int statuscode, String errormsg) {
                 // TODO Auto-generated method stub
                 Log.i("bmob","文件上传失败："+errormsg);
+                mDialog.dismiss();
             }
         });
+    }
+
+    private void reset(){
+        bookNameEditText.setText("");
+        mImageUrl = "";
+        Picasso.with(this).load("file://"+mImageUrl).fit().into(bookFrontImageView);
+        mDialog.dismiss();
     }
 
     public void getImageFromResult(int requestCode, int resultCode, Intent data){

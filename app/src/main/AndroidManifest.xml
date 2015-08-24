@@ -28,6 +28,10 @@
             android:name=".ui.CreateBookActivity"
             android:label="@string/title_activity_create_book" >
         </activity>
+        <activity
+            android:name=".ui.BookInfoActivity"
+            android:label="@string/title_activity_book_info" >
+        </activity>
     </application>
 
 </manifest>
