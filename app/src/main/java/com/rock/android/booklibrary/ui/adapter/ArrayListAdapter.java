@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.rock.android.booklibrary.util.Constants;
 import com.rock.android.booklibrary.util.Util;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public abstract class ArrayListAdapter<T> extends BaseAdapter {
 	protected Activity mContext;
 	protected ListView mListView;
 	protected LayoutInflater mInflater;
+	protected int page;
 	
 	public ArrayListAdapter(Activity context){
 		this(context, null);
@@ -30,6 +32,19 @@ public abstract class ArrayListAdapter<T> extends BaseAdapter {
 		this.mContext = context;
 		this.mList = list;
 		mInflater = context.getLayoutInflater();
+		page = 1;
+	}
+
+	public void setPagePlusOne(){
+		page++;
+	}
+
+	public int getPage(){
+		return page;
+	}
+
+	public void setPage(int page){
+		this.page = page;
 	}
 
 	@Override
@@ -100,6 +115,13 @@ public abstract class ArrayListAdapter<T> extends BaseAdapter {
 	
 	public void setListView(ListView listView){
 		mListView = listView;
+	}
+
+	/**
+	 * 请求的偏移量
+	 * */
+	public int getSkip(){
+		return (page-1)* Constants.PAGE_NUMBER;
 	}
 
 }

@@ -6,4 +6,8 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_create_book">CreateBookActivity</string>
     <string name="title_activity_book_info">BookInfoActivity</string>
+    <string name="title_activity_lendout">LendoutActivity</string>
+
+    <string name="lendout">借出</string>
+    <string name="title_activity_person_modify">PersonModifyActivity</string>
 </resources>

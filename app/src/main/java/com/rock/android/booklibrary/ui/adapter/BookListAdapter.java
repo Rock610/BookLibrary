@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.rock.android.booklibrary.R;
 import com.rock.android.booklibrary.model.Book;
-import com.rock.android.booklibrary.util.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,8 +17,6 @@ import java.util.List;
  * Created by rock on 15/8/5.
  */
 public class BookListAdapter extends ArrayListAdapter<Book>{
-
-    private int page;
 
     public BookListAdapter(Activity context, List<Book> list) {
         super(context, list);
@@ -54,19 +51,5 @@ public class BookListAdapter extends ArrayListAdapter<Book>{
         TextView bookName;
     }
 
-    public void setPagePlusOne(){
-        page++;
-    }
 
-    public int getPage(){
-        return page;
-    }
-
-    public void setPage(int page){
-        this.page = page;
-    }
-
-    public int getSkip(){
-        return (page-1)* Constants.PAGE_NUMBER;
-    }
 }

@@ -18,9 +18,14 @@ import com.bmob.BmobProFile;
 import com.bmob.btp.callback.UploadListener;
 import com.rock.android.booklibrary.R;
 import com.rock.android.booklibrary.model.Book;
+import com.rock.android.booklibrary.util.Util;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.FindListener;
 
 public class CreateBookActivity extends BaseActivity implements View.OnClickListener{
 
@@ -55,12 +60,18 @@ public class CreateBookActivity extends BaseActivity implements View.OnClickList
                 startActivityForResult(intent, REQUEST_LOAD_IMG);
                 break;
             case R.id.submitBtn:
-                submit();
+                beginSubmit();
                 break;
         }
     }
 
     private void submit(){
+        showDialog();
+        uploadImage(mImageUrl);
+
+    }
+
+    private void showDialog(){
         if(mDialog == null){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("请稍后...");
@@ -68,9 +79,36 @@ public class CreateBookActivity extends BaseActivity implements View.OnClickList
             mDialog = builder.create();
         }
         mDialog.show();
+    }
 
-        uploadImage(mImageUrl);
 
+    private void beginSubmit(){
+        showDialog();
+        String name = bookNameEditText.getText().toString();
+        queryBookByName(name);
+    }
+
+    private void queryBookByName(String name){
+        BmobQuery<Book> query = new BmobQuery<>();
+        query.addWhereEqualTo("name",name);
+        query.setLimit(1);
+        query.findObjects(this, new FindListener<Book>() {
+            @Override
+            public void onSuccess(List<Book> list) {
+                mDialog.dismiss();
+                if(Util.ListNotEmpty(list)){
+                    Toast.makeText(CreateBookActivity.this, "已有同名书籍在库!", Toast.LENGTH_SHORT).show();
+                }else {
+                    submit();
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                mDialog.dismiss();
+                Toast.makeText(CreateBookActivity.this, "出错啦: "+s, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void uploadImage(String filePath){

@@ -10,5 +10,6 @@ public class Book extends BmobObject{
     public String bookId;
     public String bookPic;
     public BookUser user;
+    public boolean isLend;
 
 }
